@@ -31,10 +31,10 @@ loger notice "Turn on NAT over $intf"
 suf="dev $intf"
 
 ip route add "$server" via "$gateway"
+
 # 全局0,国内1,国外2
 # 国内指首先全局走隧道,然后chnroute表中的走普通国内路由
 # 国外指不设定全局隧道,然后chnroute表中的走普通国内路由(此时是回国)
-
 if [ "$route_mode" != 2 ]; then
   ip route add 0.0.0.0/1 dev "$intf"
   ip route add 128.0.0.0/1 dev "$intf"
@@ -43,7 +43,6 @@ if [ "$route_mode" != 2 ]; then
 fi
 
 # Load global rules
-suf="via $gateway"
 if [ "$route_mode" != 0 -a -f "$route_file" ]; then
   grep -E "^([0-9]{1,3}\.){3}[0-9]{1,3}" "$route_file" >/tmp/tinyvpn
   sed -e "s/^/route add /" -e "s/$/ $suf/" /tmp/tinyvpn | ip -batch -
