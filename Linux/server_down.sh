@@ -11,7 +11,7 @@ SUBNET="10.22.22.0"
 
 [ -x "$DAEMON" ] || exit 0
 
-# Server configuration file
+killall tinyvpn
 
 # Turn off NAT over VPN
 iptables -t nat -D POSTROUTING -s $SUBNET/16 ! -d $SUBNET/16 -m comment --comment $NAME -j MASQUERADE
