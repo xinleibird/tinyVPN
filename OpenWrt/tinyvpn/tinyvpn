@@ -1,0 +1,24 @@
+#!/bin/sh /etc/rc.common
+
+START=90
+STOP=15
+
+start() {
+	/etc/tinyvpn/client_up.sh
+}
+
+stop() {
+	/etc/tinyvpn/client_down.sh
+}
+
+boot() {
+	if [ ! -c "/dev/net/tun" ]; then
+		mkdir -p /dev/net
+		mknod /dev/net/tun c 10 200
+		chmod 0666 /dev/net/tun
+	fi
+	until ip route show 0/0 | grep -q "^default"; do
+		sleep 1
+	done
+	start
+}

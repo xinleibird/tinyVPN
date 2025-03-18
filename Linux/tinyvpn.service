@@ -5,8 +5,8 @@ After=network.target
 [Service]
 Type=oneshot
 RemainAfterExit=yes
-ExecStart=bash /etc/tinyvpn/server_up.sh
-ExecStop=bash /etc/tinyvpn/server_down.sh
+ExecStart=/etc/tinyvpn/server_up.sh
+ExecStop=/etc/tinyvpn/server_down.sh
 
 [Install]
 WantedBy=multi-user.target
